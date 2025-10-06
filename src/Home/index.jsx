@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Button } from "react-bootstrap";
 
 import './index.css';
 
@@ -32,8 +33,10 @@ export default function HomePage() {
     const [showSuccess, setShowSuccess] = useState(false);
 
     const handleSubmitInfo = async (info) => {
+        const stringedInfo = String(info);
+        if (stringedInfo.length < 1) return;
         try {
-            const resp = await axios.post(`http://localhost:1830/idiota-api/coisas/${info}`);
+            const resp = await axios.post(`http://localhost:1830/idiota-api/coisas/${stringedInfo}`);
         } catch (error) {
             console.error("Error submitting data:", error);
         }
@@ -63,17 +66,17 @@ export default function HomePage() {
                 <h1 style={{color: `white`}}>Armazenador de Coisas Aleatórias 2000</h1>
                 <small><p style={{color: 'lightgray'}}>Aperte [ENTER] para inserir.</p></small>
 
-                <input onChange={keyChanging} onKeyDown={enterKey} type="text" name="doenca" placeholder="Escreva sua Coisa" />
+                <input style={{borderRadius: '20px', width: '40vw'}} onChange={keyChanging} onKeyDown={enterKey} type="text" maxlength="50" name="doenca" placeholder="Escreva sua Coisa" />
 
                 <h4 style={{color: 'white', textAlign: 'center', textDecoration: 'underline', marginTop: '20px', marginBottom: '-30px'}}> Coisas Aleatórias </h4>
 
-                <div style={{marginTop: '40px', width: '600px', height: '200px', overflowY: 'scroll'}}>
+                <div style={{marginTop: '40px', width: '650px', height: '200px', overflowY: 'scroll'}}>
                     {backendData && backendData.map((key, ind) => (
                         <p key={ind} style={{color: 'gold', textAlign: 'center', lineHeight: '0.5'}}>{key.data}</p>
                     ))}
                 </div>     
 
-                <button onClick={clearData} style={{marginTop: '20px'}}>Clear Data</button>
+                <Button onClick={clearData} style={{marginTop: '20px'}}>Clear Data</Button>
                 
             </main>       
         </>
